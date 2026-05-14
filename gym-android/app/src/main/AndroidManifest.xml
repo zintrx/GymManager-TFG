@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.gymmanager.android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Photo picker permissions -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/app_icon"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/app_icon"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.GymManager"
+        android:usesCleartextTraffic="true">
+        
+        <activity
+            android:name=".activity.SplashActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activity.LoginActivity"
+            android:exported="false" />
+        
+        <activity android:name=".MainActivity" />
+        <activity android:name=".activity.CalendarActivity" android:exported="false" />
+        <activity android:name=".activity.PaymentsActivity" />
+        <activity android:name=".activity.RoutinesActivity" />
+        <activity android:name=".activity.ProfileActivity" />
+        <activity android:name=".activity.SocialActivity" />
+        <activity android:name=".activity.StoreActivity" />
+        <activity android:name=".activity.QrAccessActivity" />
+        <activity android:name=".activity.RegisterActivity" />
+        <activity android:name=".activity.ExploreActivity" />
+        <activity android:name=".activity.WorkoutTrackingActivity" />
+        <activity android:name=".activity.ExercisesActivity" />
+        
+    </application>
+
+</manifest>

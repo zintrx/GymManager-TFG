@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GymManager | Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/jpeg" href="assets/favicon.jpg">
+</head>
+<body class="dashboard">
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1 style="color: var(--primary); font-weight: 900; font-style: italic;">GYM<span style="color: white;">MANAGER</span></h1>
+            </div>
+            
+            <nav class="nav-links">
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link active">
+                        <i class="fas fa-home"></i> Inicio
+                    </a>
+                </li>
+                <li class="nav-item admin-only">
+                    <a href="clients.html" class="nav-link" id="navClients">
+                        <i class="fas fa-users"></i> Clientes
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="payments.html" class="nav-link" id="navPayments">
+                        <i class="fas fa-credit-card"></i> Pagos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="routines.html" class="nav-link" id="navRoutines">
+                        <i class="fas fa-dumbbell"></i> Rutinas
+                    </a>
+                </li>
+            </nav>
+            
+            <div class="nav-item" style="margin-top:auto;">
+                <a href="#" class="nav-link" id="btnLogout">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- GymManager Header Logo -->
+            <div style="text-align: center; padding: 1rem 0;">
+                <h1 style="color: var(--primary); font-weight: 900; font-style: italic; letter-spacing: -2px; margin: 0;">GYM<span style="color: white;">MANAGER</span></h1>
+                <p style="color: var(--primary); font-size: 0.6rem; margin-top: -5px; font-weight: 700;">MANAGE BETTER</p>
+            </div>
+
+            <!-- CLIENT DASHBOARD -->
+            <div id="clientDashboard" class="client-only" style="display: none;">
+                <!-- Welcome Section -->
+                <div class="promo-banner" style="margin-bottom: 2rem; background: linear-gradient(135deg, var(--primary), var(--accent)); color: #000; display: flex; align-items: center; justify-content: space-between; padding: 2rem; border-radius: 20px;">
+                    <div>
+                        <h2 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; color: #000;">¡HOLA, <span id="clientNameHeader">SOCI@</span>!</h2>
+                        <p style="font-weight: 700; font-size: 1.1rem; color: #000;">"El único mal entrenamiento es el que no se hace."</p>
+                    </div>
+                    <i class="fas fa-bolt" style="font-size: 5rem; opacity: 0.8; color: #000;"></i>
+                </div>
+
+                <h3 style="margin-bottom: 1.5rem; font-size: 1.5rem;">Tu Actividad</h3>
+                
+                <!-- Stats / Quick Info -->
+                <div class="stats-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2.5rem;">
+                    <div class="stat-card" style="border-left: 4px solid var(--primary);">
+                        <span class="stat-label">RUTINA ACTUAL</span>
+                        <h2 id="cardRoutineName">Cargando...</h2>
+                    </div>
+                    <div class="stat-card" style="border-left: 4px solid var(--accent);">
+                        <span class="stat-label">ENTRENOS ESTA SEMANA</span>
+                        <h2 id="cardTrainingsWeek">0</h2>
+                    </div>
+                    <div class="stat-card" style="border-left: 4px solid #ef4444;" id="paymentStatusCard">
+                        <span class="stat-label">ESTADO DE PAGO</span>
+                        <h2 id="cardPaymentStatus">Pendiente</h2>
+                    </div>
+                </div>
+
+                <h3 style="margin-bottom: 1.5rem; font-size: 1.5rem;">Accesos Rápidos</h3>
+
+                <!-- Feature Grid for Clients -->
+                <div class="feature-grid" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem;">
+                    <div class="feature-card" id="btnShowQRClient">
+                        <div class="icon-circle accent-cyan"><i class="fas fa-qrcode" style="font-size: 3rem;"></i></div>
+                        <span>Mi Acceso QR</span>
+                    </div>
+
+                    <div class="feature-card" onclick="window.location.href='calendar.html'">
+                        <div class="icon-circle"><i class="fas fa-calendar-alt" style="font-size: 3rem;"></i></div>
+                        <span>Mis Clases</span>
+                    </div>
+
+                    <div class="feature-card" id="btnShowProfileManualClient">
+                        <div class="icon-circle"><i class="fas fa-user-circle" style="font-size: 3rem;"></i></div>
+                        <span>Mi Perfil</span>
+                    </div>
+
+                    <div class="feature-card" id="btnShowStoreClient">
+                        <div class="icon-circle accent-cyan"><i class="fas fa-shopping-cart" style="font-size: 3rem;"></i></div>
+                        <span>Tienda</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADMIN DASHBOARD -->
+            <div id="adminDashboard" class="admin-only" style="display: none;">
+                <!-- Stats Cards Section -->
+                <div class="stats-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem;">
+                    <div class="stat-card">
+                        <span class="stat-label">CLIENTES TOTALES</span>
+                        <h2 id="statTotalClients">0</h2>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">ACTIVOS HOY</span>
+                        <h2 id="statActiveClients">0</h2>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">INGRESOS HOY</span>
+                        <h2 id="statTodayPayments">0.00€</h2>
+                    </div>
+                </div>
+
+                <!-- Grid Menu (Icons) -->
+                <div class="feature-grid">
+                    <!-- Gestión de Clientes -->
+                    <div class="feature-card" onclick="window.location.href='clients.html'">
+                        <div class="icon-circle accent-cyan"><i class="fas fa-users-cog" style="font-size: 3rem; color: var(--primary);"></i></div>
+                        <span>Gestión Clientes</span>
+                    </div>
+
+                    <!-- QR Access -->
+                    <div class="feature-card" id="btnShowQR">
+                        <div class="icon-circle accent-cyan"><i class="fas fa-qrcode" style="font-size: 3rem;"></i></div>
+                        <span>Lector QR</span>
+                    </div>
+
+                    <!-- Class Booking -->
+                    <div class="feature-card" onclick="window.location.href='calendar.html'">
+                        <div class="icon-circle"><i class="fas fa-calendar-alt" style="font-size: 3rem;"></i></div>
+                        <span>Reserva de clases</span>
+                    </div>
+
+                    <!-- Rutinas -->
+                    <div class="feature-card" onclick="window.location.href='routines.html'">
+                        <div class="icon-circle"><i class="fas fa-dumbbell" style="font-size: 3rem;"></i></div>
+                        <span>Rutinas</span>
+                    </div>
+
+                    <!-- Pesajes -->
+                    <div class="feature-card" id="btnShowProgress">
+                        <div class="icon-circle"><i class="fas fa-chart-line" style="font-size: 3rem;"></i></div>
+                        <span>Pesajes</span>
+                    </div>
+
+                    <!-- Tienda -->
+                    <div class="feature-card" id="btnShowStore">
+                        <div class="icon-circle accent-cyan"><i class="fas fa-shopping-cart" style="font-size: 3rem;"></i></div>
+                        <span>Tienda</span>
+                    </div>
+
+                    <!-- DEKA -->
+                    <div class="feature-card">
+                        <div class="icon-circle" style="border-color: #ef4444;"><i class="fas fa-shield-alt" style="font-size: 3rem; color: #ef4444;"></i></div>
+                        <span>DEKA</span>
+                    </div>
+
+                    <!-- Área de Socio -->
+                    <div class="feature-card" id="btnShowProfileManual">
+                        <div class="icon-circle"><i class="fas fa-user-circle" style="font-size: 3rem;"></i></div>
+                        <span>Fichas de socios</span>
+                    </div>
+
+                    <!-- Online Classes -->
+                    <div class="feature-card">
+                        <div class="icon-circle"><i class="fas fa-play-circle" style="font-size: 3rem;"></i></div>
+                        <span>Online classes</span>
+                    </div>
+                </div>
+
+                <!-- Recent Clients Section -->
+                <div class="data-table-container" style="margin-top: 2rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h3>Clientes Recientes</h3>
+                        <a href="clients.html" class="btn-sm btn-primary-sm" style="text-decoration: none;">Ver todos</a>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>DNI</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clientsTableBody">
+                            <tr><td colspan="4">Cargando...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Recent Purchases Section -->
+                <div class="data-table-container" style="margin-top: 2rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h3>Ventas Recientes (Tienda)</h3>
+                        <a href="payments.html" class="btn-sm btn-primary-sm" style="text-decoration: none;">Ver todas</a>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Cliente</th>
+                                <th>Producto</th>
+                                <th>Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody id="purchasesTableBody">
+                            <tr><td colspan="4">Cargando...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- QR Access Modal -->
+    <div id="qrModal" class="modal">
+        <div class="modal-content" style="text-align: center; max-width: 400px;">
+            <h3>Código QR</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem;">Acércalo al lector de la entrada</p>
+            <div id="qrContainer">
+                <i class="fas fa-qrcode" style="font-size: 10rem; color: #000;"></i>
+            </div>
+            <button class="btn-login" id="closeQrModal">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- Store Mockup Modal -->
+    <div id="storeModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <h3>Tienda GymManager</h3>
+            <div class="feature-grid" style="grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                <div class="stat-card" style="text-align: center;">
+                    <i class="fas fa-prescription-bottle" style="font-size: 5rem; color: var(--primary); margin: 1rem 0;"></i>
+                    <h4>Proteína Whey</h4>
+                    <p style="color: var(--primary);">29.99€</p>
+                    <button class="btn-sm btn-primary-sm" style="margin-top: 0.5rem; width: 100%;" onclick="buyItem('Proteína Whey', 29.99)">Comprar</button>
+                </div>
+                <div class="stat-card" style="text-align: center;">
+                    <i class="fas fa-scroll" style="font-size: 5rem; color: var(--accent); margin: 1rem 0;"></i>
+                    <h4>Toalla Gym</h4>
+                    <p style="color: var(--primary);">12.50€</p>
+                    <button class="btn-sm btn-primary-sm" style="margin-top: 0.5rem; width: 100%;" onclick="buyItem('Toalla Gym', 12.50)">Comprar</button>
+                </div>
+                <div class="stat-card" style="text-align: center;">
+                    <i class="fas fa-glass-whiskey" style="font-size: 5rem; color: var(--primary); margin: 1rem 0;"></i>
+                    <h4>Shaker</h4>
+                    <p style="color: var(--primary);">5.00€</p>
+                    <button class="btn-sm btn-primary-sm" style="margin-top: 0.5rem; width: 100%;" onclick="buyItem('Shaker', 5.00)">Comprar</button>
+                </div>
+            </div>
+            <button class="btn-login" style="margin-top: 2rem;" id="closeStoreModal">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- Client Modal (For Quick Edit/Add) -->
+    <div id="clientModal" class="modal admin-only">
+        <div class="modal-content">
+            <h3 id="modalTitle">Nuevo Cliente</h3>
+            <form id="clientForm" style="margin-top: 1.5rem;">
+                <input type="hidden" id="editClientId">
+                <div class="grid-2-cols" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group"><label>Nombre</label><input type="text" id="newNombre" required></div>
+                    <div class="form-group"><label>Apellidos</label><input type="text" id="newApellidos" required></div>
+                    <div class="form-group"><label>DNI</label><input type="text" id="newDni" required></div>
+                    <div class="form-group"><label>Estado</label>
+                        <select id="newEstado" style="width: 100%; background: var(--bg-input); border: 1px solid var(--border); color: white; padding: 1rem; border-radius: 8px;">
+                            <option value="ACTIVO">ACTIVO</option>
+                            <option value="INACTIVO">INACTIVO</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>Email</label><input type="email" id="newEmail"></div>
+                    <div class="form-group"><label>Teléfono</label><input type="text" id="newTelefono"></div>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button type="submit" class="btn-primary-yellow">Guardar</button>
+                    <button type="button" class="btn-login" onclick="document.getElementById('clientModal').style.display='none'">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation Bar (GymManager Style) -->
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="nav-tab active">
+            <i class="fas fa-home"></i>
+            <span>Inicio</span>
+        </a>
+        <a href="calendar.html" class="nav-tab">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Calendario</span>
+        </a>
+        <a href="explore.html" class="nav-tab">
+            <i class="fas fa-compass"></i>
+            <span>Explorar</span>
+        </a>
+        <a href="social.html" class="nav-tab">
+            <i class="fas fa-comments"></i>
+            <span>Social</span>
+        </a>
+        <a href="profile.html" class="nav-tab" id="btnShowProfile">
+            <i class="fas fa-user"></i>
+            <span>Yo</span>
+        </a>
+    </nav>
+
+
+    <script src="js/dashboard.js?v=1.2"></script>
+</body>
+</html>

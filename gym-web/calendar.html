@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GymManager | Clases</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/jpeg" href="assets/favicon.jpg">
+    <style>
+        /* Calendar page specific styles */
+        .cal-page {
+            min-height: 100vh;
+            background: #000;
+            padding-bottom: 90px;
+        }
+
+        /* Sticky top bar */
+        .cal-topbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.2rem 1.5rem 0;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .cal-topbar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .cal-topbar-header h1 {
+            font-size: 1.6rem;
+            font-weight: 900;
+        }
+
+        .cal-topbar-header span {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Week strip */
+        .week-strip {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+            scrollbar-width: none;
+        }
+        .week-strip::-webkit-scrollbar { display: none; }
+
+        .day-chip {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: all 0.25s ease;
+            min-width: 50px;
+        }
+
+        .day-chip span { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .day-chip strong { font-size: 1.1rem; color: white; }
+
+        .day-chip.active {
+            background: var(--primary);
+        }
+        .day-chip.active span, .day-chip.active strong { color: #000; }
+
+        .day-chip:hover:not(.active) { background: #1a1a1a; }
+
+        /* Classes list area */
+        .cal-body {
+            padding: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 1.5rem 0 1rem;
+        }
+
+        /* Class card */
+        .class-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: #111;
+            border: 1px solid #1f1f1f;
+            border-radius: 18px;
+            padding: 1rem 1.2rem;
+            margin-bottom: 0.8rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .class-card:hover { border-color: #333; transform: translateY(-2px); }
+        .class-card.reserved { border-left: 3px solid var(--primary); background: #0d140a; }
+
+        .class-color-badge {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .class-info { flex: 1; }
+        .class-info h4 { font-size: 1rem; font-weight: 800; margin: 0 0 0.2rem; }
+        .class-meta { font-size: 0.75rem; color: var(--text-muted); display: flex; gap: 0.8rem; flex-wrap: wrap; }
+
+        .badge-full { background: rgba(234,179,8,0.15); color: #eab308; padding: 0.2rem 0.6rem; border-radius: 99px; font-size: 0.7rem; font-weight: 700; }
+        .badge-reserved { background: rgba(187,255,0,0.1); color: var(--primary); padding: 0.2rem 0.6rem; border-radius: 99px; font-size: 0.7rem; font-weight: 700; }
+
+        .btn-reserve {
+            flex-shrink: 0;
+            padding: 0.55rem 1.2rem;
+            border-radius: 99px;
+            border: none;
+            font-weight: 800;
+            font-size: 0.8rem;
+            cursor: pointer;
+            background: var(--primary);
+            color: #000;
+            transition: all 0.2s ease;
+        }
+        .btn-reserve:hover { filter: brightness(1.1); }
+        .btn-cancel-res {
+            flex-shrink: 0;
+            padding: 0.55rem 1.2rem;
+            border-radius: 99px;
+            border: 1px solid #ef4444;
+            font-weight: 800;
+            font-size: 0.8rem;
+            cursor: pointer;
+            background: transparent;
+            color: #ef4444;
+            transition: all 0.2s ease;
+        }
+        .btn-cancel-res:hover { background: rgba(239,68,68,0.1); }
+
+        /* Aforo bar */
+        .aforo-bar-wrap { margin-top: 0.4rem; display: flex; align-items: center; gap: 0.5rem; }
+        .aforo-bar-bg { flex: 1; height: 3px; background: #222; border-radius: 99px; }
+        .aforo-bar-fill { height: 100%; border-radius: 99px; background: var(--primary); transition: width 0.4s; }
+
+        /* Admin FAB */
+        .fab-admin {
+            position: fixed;
+            bottom: 90px;
+            right: 1.5rem;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border: none;
+            color: #000;
+            font-size: 1.3rem;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(187,255,0,0.3);
+            z-index: 200;
+            transition: all 0.2s;
+        }
+        .fab-admin:hover { transform: scale(1.1); }
+        .fab-admin.visible { display: flex; }
+
+        /* Modal for admin add class */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: #1a1a1a;
+            border: 1px solid var(--primary);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 99px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 500;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    </style>
+</head>
+<body class="dashboard">
+<div class="cal-page">
+
+    <!-- Sticky Top Bar -->
+    <div class="cal-topbar">
+        <div class="cal-topbar-header">
+            <div>
+                <h1>Clases <span style="color: var(--primary);">de Hoy</span></h1>
+                <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.2rem;" id="calDateLabel"></p>
+            </div>
+            <div style="display: flex; gap: 0.8rem; align-items: center;">
+                <span id="myReservationsCount" style="background: var(--glass); border: 1px solid var(--border); color: var(--primary); padding: 0.4rem 0.9rem; border-radius: 99px; font-size: 0.75rem; font-weight: 700;">0 Reservas</span>
+            </div>
+        </div>
+
+        <!-- Week Strip -->
+        <div class="week-strip" id="weekStrip"></div>
+    </div>
+
+    <!-- Body -->
+    <div class="cal-body">
+        <p class="section-title" id="daySection">Clases disponibles</p>
+        <div id="classesContainer"></div>
+    </div>
+</div>
+
+<!-- Admin FAB -->
+<button class="fab-admin" id="fabAddClass" title="Añadir clase">
+    <i class="fas fa-plus"></i>
+</button>
+
+<!-- Toast notification -->
+<div class="toast" id="toastMsg"></div>
+
+<!-- Admin Activity Modal -->
+<div id="activityModal" class="modal">
+    <div class="modal-content" style="max-width: 420px;">
+        <h3>Nueva Clase</h3>
+        <form id="addActivityForm" style="margin-top: 1rem;">
+            <div class="form-group"><label>Título</label><input type="text" id="actTitle" placeholder="Ej. Zumba Power" required></div>
+            <div class="form-group"><label>Hora</label><input type="time" id="actTime" required></div>
+            <div class="form-group"><label>Duración</label><input type="text" id="actDuration" placeholder="Ej. 45 min"></div>
+            <div class="form-group"><label>Sala</label><input type="text" id="actSala" value="Sala 1"></div>
+            <div class="form-group"><label>Instructor</label><input type="text" id="actInstructor" placeholder="Nombre del instructor"></div>
+            <div class="form-group"><label>Capacidad máx.</label><input type="number" id="actCapacity" value="20" min="1"></div>
+            <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                <button type="submit" class="btn-primary-yellow">Guardar</button>
+                <button type="button" class="btn-login" id="closeActivityModal">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Bottom Nav -->
+<nav class="bottom-nav">
+    <a href="dashboard.html" class="nav-tab"><i class="fas fa-home"></i><span>Inicio</span></a>
+    <a href="calendar.html" class="nav-tab active"><i class="fas fa-calendar-alt"></i><span>Calendario</span></a>
+    <a href="explore.html" class="nav-tab"><i class="fas fa-compass"></i><span>Explorar</span></a>
+    <a href="social.html" class="nav-tab"><i class="fas fa-comments"></i><span>Social</span></a>
+    <a href="profile.html" class="nav-tab"><i class="fas fa-user"></i><span>Yo</span></a>
+</nav>
+
+<script src="js/calendar.js?v=2.0"></script>
+</body>
+</html>

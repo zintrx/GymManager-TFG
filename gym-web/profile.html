@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GymManager | Perfil</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/jpeg" href="assets/favicon.jpg">
+</head>
+<body class="dashboard" style="padding-bottom: 80px;">
+    <!-- Profile Header with Background -->
+    <div class="profile-header">
+        <div style="position: absolute; top: 20px; right: 20px; display: flex; gap: 1rem;">
+            <i class="fas fa-cog" style="color: white; font-size: 1.5rem; cursor: pointer; text-shadow: 0 0 10px rgba(0,0,0,0.5);" onclick="openSettingsModal()"></i>
+        </div>
+    </div>
+
+    <!-- Profile Info -->
+    <div class="profile-info">
+        <div class="profile-avatar-container" onclick="openAvatarSelector()" style="cursor: pointer;">
+            <img src="https://ui-avatars.com/api/?name=User&background=333&color=fff&size=128" id="profileAvatarImg" class="profile-avatar" alt="Avatar">
+            <span class="badge-pro">PRO</span>
+            <div class="avatar-edit-overlay">
+                <i class="fas fa-camera"></i>
+            </div>
+        </div>
+        <h2 id="profileUsername" style="margin-top: 1rem; font-size: 1.8rem;">Cargando...</h2>
+        <p id="profileEmail" style="color: var(--text-muted); font-size: 0.9rem;">Cargando...</p>
+
+        <!-- Stats -->
+        <div class="profile-stats">
+            <div class="stat-item">
+                <div class="val" id="profileFee">29.99€</div>
+                <div class="lab">Cuota Mensual</div>
+                <div style="color: var(--primary); font-size: 0.7rem; margin-top: 0.2rem; font-weight:bold;">Próximo: 01/05</div>
+            </div>
+            <div class="stat-item">
+                <div class="val" id="profileStatus" style="color: var(--primary);">ACTIVO</div>
+                <div class="lab">Estado</div>
+                <div style="color: var(--text-muted); font-size: 0.7rem; margin-top: 0.2rem;">Socio desde Ene</div>
+            </div>
+            <div class="stat-item">
+                <div class="val" id="profileRole">PREMIUM</div>
+                <div class="lab">Plan Actual</div>
+                <button class="btn-sm btn-outline-sm" style="margin-top: 0.2rem; font-size: 0.65rem; padding: 0.2rem 0.5rem; color: var(--primary); border-color: var(--primary); cursor:pointer;" onclick="openPlanModal()">Mejorar</button>
+            </div>
+        </div>
+
+        <!-- Horizontal Tabs -->
+        <div class="tabs-scroll">
+            <button class="tab-btn active" onclick="switchProfileTab('club', this)">Club</button>
+            <button class="tab-btn" onclick="switchProfileTab('rendimiento', this)">Rendimiento</button>
+            <button class="tab-btn" onclick="switchProfileTab('publicaciones', this)">Publicaciones</button>
+            <button class="tab-btn" onclick="switchProfileTab('novedades', this)">Novedades</button>
+        </div>
+
+        <!-- Tab Contents -->
+        <!-- Tab: Club -->
+        <div id="tab-club" class="profile-tab-content" style="display: block;">
+            <div class="stat-card" style="width: 100%; display: flex; align-items: center; gap: 1rem; background: #1a1a1a; margin-bottom: 1rem;">
+                <div style="background: #000; padding: 0.5rem; border-radius: 8px;">
+                    <span style="color: var(--accent); font-weight: 800; font-size: 0.7rem;">GYMMANAGER</span>
+                </div>
+                <div>
+                    <h4 style="margin: 0;">GymManager Premium Center</h4>
+                    <p style="color: var(--text-muted); font-size: 0.8rem; margin: 0;">Abierto hasta las 23:00</p>
+                </div>
+            </div>
+
+            <div class="grid-2-cols" style="width: 100%; margin-top: 1rem; gap: 1rem; display: grid; grid-template-columns: 1fr 1fr;">
+                <div class="stat-card" style="background: #1a1a1a; display: flex; flex-direction: column; gap: 0.5rem; text-align: center; cursor: pointer;" onclick="alert('Horario del Centro:\n\nLunes a Viernes: 06:00 - 23:00\nSábados y Domingos: 08:00 - 20:00\nFestivos: 09:00 - 15:00')">
+                    <i class="far fa-clock" style="color: var(--primary); font-size: 2rem; margin: 0 auto;"></i>
+                    <h4 style="margin: 0;">Horario</h4>
+                    <span style="font-size: 0.8rem; color: var(--text-muted);">Ver detalles</span>
+                </div>
+                <div class="stat-card" style="background: #1a1a1a; display: flex; flex-direction: column; gap: 0.5rem; text-align: center;">
+                    <i class="far fa-address-book" style="color: var(--accent); font-size: 2rem; margin: 0 auto;"></i>
+                    <h4 style="margin: 0;">Visitas</h4>
+                    <span style="font-size: 1.2rem; font-weight: 800; color: white;">14 <span style="font-size:0.7rem;color:var(--text-muted);">este mes</span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Rendimiento -->
+        <div id="tab-rendimiento" class="profile-tab-content" style="display: none;">
+            <div class="stat-card" style="width: 100%; background: #1a1a1a; margin-bottom: 1rem;">
+                <h4 style="margin-bottom: 1rem; color: var(--primary);">Resumen Mensual</h4>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 0.5rem;">
+                    <span style="color:var(--text-muted);">Clases Asistidas</span>
+                    <span style="font-weight: bold;">10</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 0.5rem;">
+                    <span style="color:var(--text-muted);">Calorías Quemadas (Est.)</span>
+                    <span style="font-weight: bold;">4,500 kcal</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <span style="color:var(--text-muted);">Tiempo de Entrenamiento</span>
+                    <span style="font-weight: bold;">12h 30m</span>
+                </div>
+            </div>
+            <div class="stat-card" style="width: 100%; background: #1a1a1a; text-align: center; border: 1px dashed var(--border);">
+                <i class="fas fa-chart-line" style="font-size: 2.5rem; color: #444; margin-bottom: 1rem;"></i>
+                <p style="color: var(--text-muted); font-size: 0.85rem;">Las gráficas detalladas de tu progreso y levantamientos estarán disponibles muy pronto.</p>
+            </div>
+        </div>
+
+        <!-- Tab: Publicaciones -->
+        <div id="tab-publicaciones" class="profile-tab-content" style="display: none;">
+            <div class="post-card" style="background: #1a1a1a; padding: 1rem; margin-bottom: 1rem; border-radius: 12px; border: 1px solid var(--border);">
+                <div class="post-header" style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.8rem;">
+                    <img src="https://ui-avatars.com/api/?name=User&background=333&color=fff&size=128" class="post-avatar" id="pubAvatar1" style="width: 36px; height: 36px; border-radius: 50%;">
+                    <div class="post-meta" style="display: flex; flex-direction: column;">
+                        <span class="post-author" id="pubName1" style="font-size: 0.9rem; font-weight: bold;">Tú</span>
+                        <span class="post-time" style="font-size: 0.7rem; color: var(--text-muted);">Hace 2 días</span>
+                    </div>
+                </div>
+                <div class="post-content" style="font-size: 0.85rem; color: #ddd;">
+                    ¡Completada mi primera clase de Crossfit! Ha sido duro pero muy divertido.
+                </div>
+                <div class="post-actions" style="margin-top: 0.8rem; padding-top: 0.8rem; border-top: 1px solid var(--border);">
+                    <span style="color: var(--primary); font-size: 0.8rem;"><i class="fas fa-heart"></i> 12 Me gusta</span>
+                </div>
+            </div>
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.8rem; margin-top: 1rem;">
+                No tienes más publicaciones.
+            </div>
+        </div>
+
+        <!-- Tab: Novedades -->
+        <div id="tab-novedades" class="profile-tab-content" style="display: none;">
+            <div class="stat-card" style="width: 100%; background: #1a1a1a; border-left: 4px solid var(--primary); margin-bottom: 1rem;">
+                <h4 style="margin-bottom: 0.5rem; font-size: 1rem;">Nuevas cintas de correr</h4>
+                <p style="font-size: 0.8rem; color: var(--text-muted);">Hemos instalado 5 nuevas cintas de correr de última generación en la zona de cardio.</p>
+                <span style="font-size: 0.7rem; color: var(--primary); margin-top: 0.5rem; display: block;">Hace 1 día</span>
+            </div>
+            <div class="stat-card" style="width: 100%; background: #1a1a1a; border-left: 4px solid var(--accent);">
+                <h4 style="margin-bottom: 0.5rem; font-size: 1rem;">Horario Especial Festivo</h4>
+                <p style="font-size: 0.8rem; color: var(--text-muted);">El próximo viernes el gimnasio cerrará a las 20:00 por festividad local.</p>
+                <span style="font-size: 0.7rem; color: var(--accent); margin-top: 0.5rem; display: block;">Hace 3 días</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Modal: Settings -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content" style="max-width: 400px; padding: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h3 style="margin: 0; font-size: 1.5rem;">Ajustes de Cuenta</h3>
+                <i class="fas fa-times" style="cursor: pointer; font-size: 1.2rem; color: var(--text-muted);" onclick="closeSettingsModal()"></i>
+            </div>
+            <form id="settingsForm" onsubmit="event.preventDefault(); saveSettings();">
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label style="font-size: 0.8rem; color: var(--text-muted);">Correo Electrónico</label>
+                    <input type="email" id="set_email" value="" style="width: 100%; padding: 0.8rem; border-radius: 8px; background: #1a1a1a; border: 1px solid var(--border); color: white;">
+                </div>
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label style="font-size: 0.8rem; color: var(--text-muted);">Teléfono</label>
+                    <input type="text" id="set_phone" value="+34 600 000 000" style="width: 100%; padding: 0.8rem; border-radius: 8px; background: #1a1a1a; border: 1px solid var(--border); color: white;">
+                </div>
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label style="font-size: 0.8rem; color: var(--text-muted);">DNI / NIE</label>
+                    <input type="text" id="set_dni" value="12345678A" style="width: 100%; padding: 0.8rem; border-radius: 8px; background: #1a1a1a; border: 1px solid var(--border); color: white;">
+                </div>
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label style="font-size: 0.8rem; color: var(--text-muted);">Nueva Contraseña</label>
+                    <input type="password" id="set_password" placeholder="Dejar en blanco para no cambiar" style="width: 100%; padding: 0.8rem; border-radius: 8px; background: #1a1a1a; border: 1px solid var(--border); color: white;">
+                </div>
+                <button type="submit" class="btn-primary-yellow" style="width: 100%; padding: 0.8rem; border-radius: 8px;">Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Upgrade Plan -->
+    <div id="planModal" class="modal">
+        <div class="modal-content" style="max-width: 400px; padding: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h3 style="margin: 0; font-size: 1.5rem;">Mejorar Plan</h3>
+                <i class="fas fa-times" style="cursor: pointer; font-size: 1.2rem; color: var(--text-muted);" onclick="closePlanModal()"></i>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <!-- Plan VIP -->
+                <div style="border: 2px solid var(--primary); border-radius: 12px; padding: 1.5rem; background: rgba(187,255,0,0.05); position: relative;">
+                    <span style="position: absolute; top: -10px; right: 10px; background: var(--primary); color: black; font-weight: bold; font-size: 0.7rem; padding: 2px 8px; border-radius: 10px;">RECOMENDADO</span>
+                    <h4 style="margin-bottom: 0.5rem; font-size: 1.2rem;">Plan VIP</h4>
+                    <p style="font-size: 1.5rem; font-weight: 800; color: white;">49.99€ <span style="font-size: 0.8rem; font-weight: normal; color: var(--text-muted);">/mes</span></p>
+                    <ul style="margin: 1rem 0; padding-left: 1.2rem; font-size: 0.85rem; color: var(--text-muted);">
+                        <li>Acceso 24/7 en todos los clubes</li>
+                        <li>Clases dirigidas ilimitadas</li>
+                        <li>Toalla y agua incluidas</li>
+                        <li>Entrenador personal (1 sesión/mes)</li>
+                    </ul>
+                    <button class="btn-primary-yellow" style="width: 100%; padding: 0.6rem; border-radius: 8px; cursor:pointer;" onclick="upgradeToPlan('VIP')">Actualizar a VIP</button>
+                </div>
+                
+                <!-- Plan Ultra -->
+                <div style="border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; background: #1a1a1a;">
+                    <h4 style="margin-bottom: 0.5rem; font-size: 1.2rem;">Plan Ultra</h4>
+                    <p style="font-size: 1.5rem; font-weight: 800; color: white;">89.99€ <span style="font-size: 0.8rem; font-weight: normal; color: var(--text-muted);">/mes</span></p>
+                    <ul style="margin: 1rem 0; padding-left: 1.2rem; font-size: 0.85rem; color: var(--text-muted);">
+                        <li>Todo lo del Plan VIP</li>
+                        <li>Entrenador personal (4 sesiones/mes)</li>
+                        <li>Nutricionista online</li>
+                    </ul>
+                    <button class="btn-login" style="width: 100%; padding: 0.6rem; border-radius: 8px; margin-top: 0.5rem; border:1px solid #444;" onclick="upgradeToPlan('Ultra')">Actualizar a Ultra</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- File Input Hidden -->
+    <input type="file" id="avatarInput" accept="image/*" style="display: none;" onchange="updateAvatar(event)">
+
+    <!-- Bottom Nav -->
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="nav-tab">
+            <i class="fas fa-home"></i>
+            <span>Inicio</span>
+        </a>
+        <a href="calendar.html" class="nav-tab">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Calendario</span>
+        </a>
+        <a href="explore.html" class="nav-tab">
+            <i class="fas fa-compass"></i>
+            <span>Explorar</span>
+        </a>
+        <a href="social.html" class="nav-tab">
+            <i class="fas fa-comments"></i>
+            <span>Social</span>
+        </a>
+        <a href="profile.html" class="nav-tab active">
+            <i class="fas fa-user"></i>
+            <span>Yo</span>
+        </a>
+    </nav>
+    <script src="js/profile.js"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+# Android
+.gradle/
+build/
+local.properties
+*.iml
+.idea/
+*.keystore
+*.jks
+
+# Java / Spring
+target/
+*.class
+*.jar
+*.war
+*.ear
+.project
+.classpath
+.settings/
+.factorypath
+
+# Node.js
+node_modules/
+dist/
+.env
+
+# Large Files
+*.mp4
+*.zip
+*.rar
+*.iso
+
+# OS files
+desktop.ini
+.DS_Store
+Thumbs.db

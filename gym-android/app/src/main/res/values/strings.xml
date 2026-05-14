@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">GymManager</string>
+    <string name="login_title">Bienvenido a GymManager</string>
+    <string name="username_hint">Usuario</string>
+    <string name="password_hint">Contraseña</string>
+    <string name="btn_login">Entrar</string>
+    <string name="login_error">Usuario o contraseña incorrectos</string>
+    <string name="client_list_title">Tus Clientes</string>
+    <string name="btn_progress">Progreso</string>
+</resources>

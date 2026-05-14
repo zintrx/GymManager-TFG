@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GymManager | Pagos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/jpeg" href="assets/favicon.jpg">
+</head>
+<body class="dashboard">
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1 style="color: var(--primary); font-weight: 900; font-style: italic;">GYM<span style="color: white;">MANAGER</span></h1>
+            </div>
+            <nav class="nav-links">
+                <li class="nav-item"><a href="dashboard.html" class="nav-link"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li class="nav-item admin-only" style="display: none;"><a href="clients.html" class="nav-link"><i class="fas fa-users"></i> Clientes</a></li>
+                <li class="nav-item"><a href="payments.html" class="nav-link active"><i class="fas fa-credit-card"></i> Pagos</a></li>
+                <li class="nav-item"><a href="routines.html" class="nav-link"><i class="fas fa-dumbbell"></i> Rutinas</a></li>
+            </nav>
+            <div class="nav-item" style="margin-top:auto;"><a href="#" class="nav-link" id="btnLogout"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <h2 class="admin-only" style="display: none;">Simulador de Pagos (Admin)</h2>
+                <h2 class="client-only" style="display: none;">Mis Pagos</h2>
+                <div class="user-info">
+                    <span id="adminName">Usuario</span>
+                    <div class="avatar" id="adminAvatar">U</div>
+                </div>
+            </header>
+
+            <!-- CLIENT VIEW: My Payments -->
+            <div id="clientPaymentsView" class="client-only" style="display: none;">
+                <div class="data-table-container">
+                    <h3>Mi Historial de Cuotas</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Concepto</th>
+                                <th>Monto</th>
+                                <th>Método</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clientPaymentsBody">
+                            <tr><td colspan="4" style="text-align: center;">No se han encontrado pagos.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- NEW: Shop History -->
+                <div class="data-table-container" style="margin-top: 2rem;">
+                    <h3>Mis Compras en Tienda</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Producto</th>
+                                <th>Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clientShopBody">
+                            <tr><td colspan="3" style="text-align: center;">No hay compras registradas.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ADMIN VIEW -->
+            <div class="grid-2-cols admin-only" style="display: none; grid-template-columns: 1fr 1.5fr; gap: 2rem;">
+                <!-- Register Payment Form -->
+                <div class="data-table-container">
+                    <h3>Registrar Nuevo Pago</h3>
+                    <form id="paymentForm" style="margin-top: 1.5rem;">
+                        <div class="form-group">
+                            <label>Seleccionar Cliente</label>
+                            <select id="selectCliente" class="form-group input" style="width: 100%; background: var(--bg-input); border: 1px solid var(--border); color: white; padding: 1rem; border-radius: 8px;" required>
+                                <option value="">Cargando clientes...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Monto (€)</label>
+                            <input type="number" id="monto" value="30.00" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Concepto</label>
+                            <input type="text" id="concepto" value="Cuota Mensual">
+                        </div>
+                        <div class="form-group">
+                            <label>Método de Pago</label>
+                            <select id="metodoPago" style="width: 100%; background: var(--bg-input); border: 1px solid var(--border); color: white; padding: 1rem; border-radius: 8px;">
+                                <option value="Efectivo">Efectivo</option>
+                                <option value="Tarjeta">Tarjeta</option>
+                                <option value="Transferencia">Transferencia</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-primary-yellow">Confirmar Pago</button>
+                    </form>
+                </div>
+
+                <!-- Payment History -->
+                <div class="data-table-container">
+                    <h3>Historial Reciente de Cuotas</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Monto</th>
+                                <th>Fecha</th>
+                                <th>Método</th>
+                            </tr>
+                        </thead>
+                        <tbody id="paymentsTableBody">
+                            <!-- Data will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- NEW: Admin Shop History -->
+                <div class="data-table-container" style="margin-top: 2rem; grid-column: span 2;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h3>Ventas de la Tienda (Admin)</h3>
+                        <span id="totalVentasStore" style="color: var(--primary); font-weight: 800; font-size: 1.2rem;">Total: 0.00€</span>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Cliente</th>
+                                <th>Producto</th>
+                                <th>Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminShopBody">
+                            <tr><td colspan="4" style="text-align: center;">Cargando ventas...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="js/payments_v2.js"></script>
+</body>
+</html>

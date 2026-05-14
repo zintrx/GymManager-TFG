@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GymManager | Clientes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/jpeg" href="assets/favicon.jpg">
+</head>
+<body class="dashboard">
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1 style="color: var(--primary); font-weight: 900; font-style: italic;">GYM<span style="color: white;">MANAGER</span></h1>
+            </div>
+            <nav class="nav-links">
+                <li class="nav-item"><a href="dashboard.html" class="nav-link"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li class="nav-item"><a href="clients.html" class="nav-link active"><i class="fas fa-users"></i> Clientes</a></li>
+                <li class="nav-item"><a href="payments.html" class="nav-link"><i class="fas fa-credit-card"></i> Pagos</a></li>
+                <li class="nav-item"><a href="routines.html" class="nav-link"><i class="fas fa-dumbbell"></i> Rutinas</a></li>
+            </nav>
+            <div class="nav-item"><a href="#" class="nav-link" id="btnLogout"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <h2>Gestión de Clientes</h2>
+                <div class="user-info">
+                    <span id="adminName">Admin</span>
+                    <div class="avatar" id="adminAvatar">A</div>
+                </div>
+            </header>
+
+            <div class="data-table-container">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h3>Listado de Clientes</h3>
+                    <button class="btn-primary-yellow" id="btnAddClient"><i class="fas fa-plus"></i> Nuevo Cliente</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre Completo</th>
+                            <th>DNI</th>
+                            <th>Email</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="clientsTableBody">
+                        <!-- Data will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Client Modal -->
+    <div id="clientModal" class="modal">
+        <div class="modal-content">
+            <h3 id="modalTitle">Nuevo Cliente</h3>
+            <form id="clientForm" style="margin-top: 1.5rem;">
+                <input type="hidden" id="clientId">
+                <div class="grid-2-cols" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input type="text" id="nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Apellidos</label>
+                        <input type="text" id="apellidos" required>
+                    </div>
+                    <div class="form-group">
+                        <label>DNI</label>
+                        <input type="text" id="dni" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Estado</label>
+                        <select id="estado" style="width: 100%; background: var(--bg-input); border: 1px solid var(--border); color: white; padding: 1rem; border-radius: 8px;">
+                            <option value="ACTIVO">ACTIVO</option>
+                            <option value="INACTIVO">INACTIVO</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="email">
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono</label>
+                        <input type="text" id="telefono">
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top: 1rem;">
+                    <label>Observaciones</label>
+                    <textarea id="observaciones" style="width: 100%; background: var(--bg-input); border: 1px solid var(--border); color: white; padding: 1rem; border-radius: 8px; min-height: 80px;"></textarea>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button type="submit" class="btn-primary-yellow">Guardar</button>
+                    <button type="button" class="btn-login" id="closeClientModal">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/clients.js?v=1.1"></script>
+</body>
+</html>

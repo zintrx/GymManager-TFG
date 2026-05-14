@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GymManager | Explorar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/jpeg" href="assets/favicon.jpg">
+    <style>
+        .explore-page { padding-bottom: 90px; background: #000; min-height: 100vh; }
+
+        /* Search bar */
+        .search-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: #111;
+            border: 1px solid #1f1f1f;
+            border-radius: 16px;
+            padding: 0.9rem 1.2rem;
+            margin: 1.2rem 1.2rem 1.5rem;
+            transition: border-color 0.3s;
+        }
+        .search-bar:focus-within { border-color: var(--primary); }
+        .search-bar input {
+            background: none; border: none; outline: none; color: white;
+            font-family: 'Outfit', sans-serif; font-size: 1rem; flex: 1;
+        }
+        .search-bar input::placeholder { color: #555; }
+        .search-bar i { color: #555; font-size: 1rem; }
+
+        /* Category chips */
+        .cat-strip {
+            display: flex; gap: 0.5rem; overflow-x: auto; padding: 0 1.2rem 0.5rem;
+            scrollbar-width: none;
+        }
+        .cat-strip::-webkit-scrollbar { display: none; }
+        .cat-chip {
+            flex-shrink: 0; padding: 0.45rem 1.1rem; border-radius: 99px;
+            border: 1px solid #222; background: #111; color: var(--text-muted);
+            font-size: 0.8rem; font-weight: 700; cursor: pointer;
+            transition: all 0.2s; white-space: nowrap;
+        }
+        .cat-chip.active { background: var(--primary); color: #000; border-color: var(--primary); }
+        .cat-chip:hover:not(.active) { border-color: #444; color: white; }
+
+        /* Section label */
+        .sec-label {
+            padding: 1.5rem 1.2rem 0.8rem;
+            font-size: 0.7rem; font-weight: 800; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 2px;
+        }
+
+        /* Featured card (horizontal scroll) */
+        .featured-scroll {
+            display: flex; gap: 1rem; overflow-x: auto; padding: 0 1.2rem 1rem;
+            scrollbar-width: none;
+        }
+        .featured-scroll::-webkit-scrollbar { display: none; }
+
+        .feat-card {
+            flex-shrink: 0; width: 200px; border-radius: 20px; overflow: hidden;
+            position: relative; cursor: pointer; transition: transform 0.3s;
+        }
+        .feat-card:hover { transform: scale(1.03); }
+        .feat-card-img {
+            width: 100%; height: 130px; object-fit: cover;
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 3.5rem;
+        }
+        .feat-card-body { background: #111; padding: 0.8rem; }
+        .feat-card-body h4 { margin: 0; font-size: 0.95rem; }
+        .feat-card-body p { margin: 0.2rem 0 0; font-size: 0.75rem; color: var(--text-muted); }
+
+        /* Content cards (vertical list) */
+        .content-list { padding: 0 1.2rem; display: flex; flex-direction: column; gap: 0.8rem; }
+
+        .content-card {
+            display: flex; align-items: center; gap: 1rem;
+            background: #111; border: 1px solid #1f1f1f; border-radius: 16px;
+            padding: 1rem; cursor: pointer; transition: all 0.25s;
+        }
+        .content-card:hover { border-color: #333; transform: translateX(4px); }
+
+        .content-icon {
+            width: 52px; height: 52px; border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; flex-shrink: 0;
+        }
+        .content-body { flex: 1; }
+        .content-body h4 { margin: 0; font-size: 0.95rem; font-weight: 700; }
+        .content-body p { margin: 0.2rem 0 0; font-size: 0.75rem; color: var(--text-muted); }
+
+        .content-meta {
+            text-align: right; flex-shrink: 0;
+        }
+        .content-meta span { display: block; font-size: 0.7rem; color: var(--text-muted); }
+        .content-meta strong { color: var(--primary); font-size: 0.8rem; }
+
+        /* Tip card */
+        .tip-card {
+            background: linear-gradient(135deg, #0d1a05, #111);
+            border: 1px solid rgba(187,255,0,0.2);
+            border-radius: 20px; padding: 1.2rem 1.2rem;
+            display: flex; align-items: flex-start; gap: 1rem;
+            margin: 0 1.2rem 0.8rem;
+            cursor: pointer; transition: all 0.25s;
+        }
+        .tip-card:hover { border-color: var(--primary); }
+        .tip-icon { font-size: 1.8rem; flex-shrink: 0; margin-top: 0.1rem; }
+        .tip-body h4 { margin: 0 0 0.3rem; font-size: 0.95rem; }
+        .tip-body p { margin: 0; font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
+        .tip-tag { display: inline-block; margin-top: 0.5rem; background: rgba(187,255,0,0.1); color: var(--primary); font-size: 0.65rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 99px; }
+
+        /* Promo banner */
+        .promo-explore {
+            margin: 0.5rem 1.2rem 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 20px; padding: 1.5rem;
+            display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer;
+        }
+        .promo-explore h3 { font-size: 1.2rem; font-weight: 900; color: #000; margin: 0 0 0.3rem; }
+        .promo-explore p { font-size: 0.8rem; color: rgba(0,0,0,0.7); margin: 0; }
+        .promo-explore i { font-size: 2.5rem; color: rgba(0,0,0,0.5); }
+    </style>
+</head>
+<body class="dashboard">
+<div class="explore-page">
+
+    <!-- Header -->
+    <div style="padding: 1.5rem 1.2rem 0; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h1 style="margin: 0; font-size: 2rem; font-weight: 900;">Explorar</h1>
+            <p style="margin: 0; color: var(--text-muted); font-size: 0.85rem;">Descubre rutinas, nutrición y más</p>
+        </div>
+        <div style="width: 38px; height: 38px; background: var(--glass); border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-bell" style="color: var(--text-muted);"></i>
+        </div>
+    </div>
+
+    <!-- Search -->
+    <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Buscar rutinas, clases, consejos..." oninput="filterContent()">
+        <i class="fas fa-sliders-h" style="cursor:pointer;" onclick="filterContent()"></i>
+    </div>
+
+    <!-- Category chips -->
+    <div class="cat-strip">
+        <div class="cat-chip active" onclick="setCategory(this, 'all')">Todos</div>
+        <div class="cat-chip" onclick="setCategory(this, 'rutinas')">💪 Rutinas</div>
+        <div class="cat-chip" onclick="setCategory(this, 'nutricion')">🥗 Nutrición</div>
+        <div class="cat-chip" onclick="setCategory(this, 'cardio')">🏃 Cardio</div>
+        <div class="cat-chip" onclick="setCategory(this, 'fuerza')">🏋️ Fuerza</div>
+        <div class="cat-chip" onclick="setCategory(this, 'mental')">🧘 Bienestar</div>
+    </div>
+
+    <!-- Promo Banner -->
+    <div style="margin-top: 0.5rem;"></div>
+    <div class="promo-explore" onclick="showToast('Próximamente disponible 🚀')">
+        <div>
+            <h3>Plan Premium</h3>
+            <p>Accede a todo el contenido exclusivo</p>
+        </div>
+        <i class="fas fa-crown"></i>
+    </div>
+
+    <!-- Featured -->
+    <div class="sec-label" id="featuredLabel">🔥 Tendencia esta semana</div>
+    <div class="featured-scroll" id="featuredCards"></div>
+
+    <!-- Routines / Content -->
+    <div class="sec-label" id="contentLabel">📚 Contenido para ti</div>
+    <div class="content-list" id="contentList"></div>
+
+    <!-- Tips -->
+    <div class="sec-label" id="tipsLabel">💡 Consejos del día</div>
+    <div id="tipsList"></div>
+
+</div>
+
+<!-- Toast -->
+<div style="position:fixed; bottom:90px; left:50%; transform:translateX(-50%) translateY(20px); background:#1a1a1a; border:1px solid var(--primary); color:white; padding:0.7rem 1.5rem; border-radius:99px; font-size:0.85rem; font-weight:700; opacity:0; transition:all 0.3s; z-index:500; pointer-events:none; white-space:nowrap;" id="exploreToast"></div>
+
+<!-- Bottom Nav -->
+<nav class="bottom-nav">
+    <a href="dashboard.html" class="nav-tab"><i class="fas fa-home"></i><span>Inicio</span></a>
+    <a href="calendar.html" class="nav-tab"><i class="fas fa-calendar-alt"></i><span>Calendario</span></a>
+    <a href="explore.html" class="nav-tab active"><i class="fas fa-compass"></i><span>Explorar</span></a>
+    <a href="social.html" class="nav-tab"><i class="fas fa-comments"></i><span>Social</span></a>
+    <a href="profile.html" class="nav-tab"><i class="fas fa-user"></i><span>Yo</span></a>
+</nav>
+
+<script>
+const ALL_FEATURED = [
+    { emoji: '🏋️', title: 'Rutina Push-Pull-Legs', sub: 'Hipertrofia · 6 días/semana', cat: 'fuerza' },
+    { emoji: '🔥', title: 'HIIT 20 min', sub: 'Cardio · Sin equipamiento', cat: 'cardio' },
+    { emoji: '🥗', title: 'Dieta Volumen', sub: 'Nutrición · +3000 kcal', cat: 'nutricion' },
+    { emoji: '🧘', title: 'Yoga Mañana', sub: 'Bienestar · 15 min', cat: 'mental' },
+    { emoji: '💪', title: 'Fuerza 5x5', sub: 'Fuerza · Principiantes', cat: 'fuerza' },
+];
+
+const ALL_CONTENT = [
+    { emoji: '🚀', bg: 'rgba(187,255,0,0.12)', color: '#BBFF00', title: 'Rutina Completa de Espalda', desc: 'Dominadas, remo y jalones — ejercicios clave', cat: 'fuerza', time: '12 min', level: 'Avanzado' },
+    { emoji: '🍗', bg: 'rgba(245,158,11,0.12)', color: '#f59e0b', title: '5 Alimentos Ricos en Proteína', desc: 'Optimiza tu recuperación muscular', cat: 'nutricion', time: '5 min', level: 'Para todos' },
+    { emoji: '🏃', bg: 'rgba(239,68,68,0.12)', color: '#ef4444', title: 'Cómo Mejorar tu Cardio', desc: 'Técnica de carrera y respiración', cat: 'cardio', time: '8 min', level: 'Intermedio' },
+    { emoji: '💧', bg: 'rgba(0,224,255,0.12)', color: '#00E0FF', title: 'Hidratación y Rendimiento', desc: 'Cuánto y cuándo beber agua en el gym', cat: 'mental', time: '4 min', level: 'Para todos' },
+    { emoji: '🦵', bg: 'rgba(167,139,250,0.12)', color: '#a78bfa', title: 'Rutina de Pierna Brutal', desc: 'Sentadillas, prensa y extensiones', cat: 'rutinas', time: '20 min', level: 'Avanzado' },
+    { emoji: '😴', bg: 'rgba(52,211,153,0.12)', color: '#34d399', title: 'El descanso también entrena', desc: 'Por qué dormir bien multiplica tus resultados', cat: 'mental', time: '6 min', level: 'Para todos' },
+    { emoji: '🔄', bg: 'rgba(236,72,153,0.12)', color: '#ec4899', title: 'Estiramiento post-entreno', desc: 'Reduce agujetas y mejora la flexibilidad', cat: 'rutinas', time: '10 min', level: 'Principiante' },
+    { emoji: '🥑', bg: 'rgba(187,255,0,0.12)', color: '#BBFF00', title: 'Grasas saludables para el gym', desc: 'Aguacate, frutos secos y aceite de oliva', cat: 'nutricion', time: '5 min', level: 'Para todos' },
+];
+
+const ALL_TIPS = [
+    { emoji: '⚡', title: 'Consejo del día', text: 'Empieza cada entreno con 5 minutos de movilidad articular. Reducirás lesiones y mejorarás tu rango de movimiento.', tag: 'MOVILIDAD' },
+    { emoji: '🧠', title: 'Mindset ganador', text: 'La constancia supera al talento. Un entreno mediocre siempre será mejor que ninguno. ¡Muévete hoy!', tag: 'MOTIVACIÓN' },
+    { emoji: '🍽️', title: 'Nutrición', text: 'Come proteínas dentro de los 45 minutos tras el entreno para maximizar la síntesis muscular.', tag: 'NUTRICIÓN' },
+];
+
+let currentCat = 'all';
+
+function setCategory(el, cat) {
+    currentCat = cat;
+    document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    renderAll();
+}
+
+function filterContent() {
+    renderAll();
+}
+
+function renderAll() {
+    const q = (document.getElementById('searchInput').value || '').toLowerCase();
+
+    // Featured
+    const featCards = document.getElementById('featuredCards');
+    const filtered = ALL_FEATURED.filter(f =>
+        (currentCat === 'all' || f.cat === currentCat) &&
+        (!q || f.title.toLowerCase().includes(q) || f.sub.toLowerCase().includes(q))
+    );
+    featCards.innerHTML = '';
+    if (filtered.length === 0) {
+        featCards.innerHTML = '<div style="color:var(--text-muted); padding: 0 0 1rem; font-size:0.85rem;">Sin resultados.</div>';
+    }
+    filtered.forEach(f => {
+        const card = document.createElement('div');
+        card.className = 'feat-card';
+        card.innerHTML = `
+            <div class="feat-card-img">${f.emoji}</div>
+            <div class="feat-card-body">
+                <h4>${f.title}</h4>
+                <p>${f.sub}</p>
+            </div>
+        `;
+        card.onclick = () => showToast('📖 Próximamente: ' + f.title);
+        featCards.appendChild(card);
+    });
+
+    // Content list
+    const list = document.getElementById('contentList');
+    const filteredC = ALL_CONTENT.filter(c =>
+        (currentCat === 'all' || c.cat === currentCat) &&
+        (!q || c.title.toLowerCase().includes(q) || c.desc.toLowerCase().includes(q))
+    );
+    list.innerHTML = '';
+    if (filteredC.length === 0) {
+        list.innerHTML = '<p style="color:var(--text-muted); font-size:0.85rem; padding-bottom:1rem;">Sin resultados para este filtro.</p>';
+    }
+    filteredC.forEach(c => {
+        const el = document.createElement('div');
+        el.className = 'content-card';
+        el.innerHTML = `
+            <div class="content-icon" style="background:${c.bg};">${c.emoji}</div>
+            <div class="content-body">
+                <h4>${c.title}</h4>
+                <p>${c.desc}</p>
+            </div>
+            <div class="content-meta">
+                <span>${c.time} lectura</span>
+                <strong>${c.level}</strong>
+            </div>
+        `;
+        el.onclick = () => showToast('📖 Leyendo: ' + c.title);
+        list.appendChild(el);
+    });
+
+    // Tips (always show)
+    const tipsList = document.getElementById('tipsList');
+    const filteredT = ALL_TIPS.filter(t =>
+        !q || t.title.toLowerCase().includes(q) || t.text.toLowerCase().includes(q)
+    );
+    tipsList.innerHTML = '';
+    filteredT.forEach(t => {
+        const el = document.createElement('div');
+        el.className = 'tip-card';
+        el.innerHTML = `
+            <div class="tip-icon">${t.emoji}</div>
+            <div class="tip-body">
+                <h4>${t.title}</h4>
+                <p>${t.text}</p>
+                <span class="tip-tag">${t.tag}</span>
+            </div>
+        `;
+        tipsList.appendChild(el);
+    });
+}
+
+function showToast(msg) {
+    const t = document.getElementById('exploreToast');
+    t.textContent = msg;
+    t.style.opacity = '1';
+    t.style.transform = 'translateX(-50%) translateY(0)';
+    setTimeout(() => {
+        t.style.opacity = '0';
+        t.style.transform = 'translateX(-50%) translateY(20px)';
+    }, 2500);
+}
+
+// Init
+renderAll();
+</script>
+</body>
+</html>

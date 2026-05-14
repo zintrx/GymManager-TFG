@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GymManager | Social</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/jpeg" href="assets/favicon.jpg">
+</head>
+<body class="dashboard" style="padding-bottom: 80px;">
+    <div class="container" style="padding: 2rem;">
+        <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 1rem;">Social</h2>
+        <p style="color: var(--text-muted);">Conecta con otros miembros de tu gimnasio y comparte tu progreso.</p>
+        
+        <!-- Tabs -->
+        <div class="tabs-scroll" style="margin-top: 1rem;">
+            <button class="tab-btn active" onclick="switchSocialTab('feed')">Comunidad</button>
+            <button class="tab-btn" onclick="switchSocialTab('ranking')">Ranking Mensual</button>
+        </div>
+
+        <!-- Tab Content: Feed -->
+        <div id="feed-tab" class="social-tab-content active">
+            <!-- Posts will be loaded here dynamically -->
+            <div id="posts-container"></div>
+            
+            <div style="height: 80px;"></div> <!-- Spacer -->
+        </div>
+
+        <!-- Tab Content: Ranking -->
+        <div id="ranking-tab" class="social-tab-content" style="display: none;">
+            <div class="ranking-header">
+                <i class="fas fa-trophy" style="color: #FFD700; font-size: 2.5rem; margin-bottom: 0.5rem; text-shadow: 0 0 15px rgba(255,215,0,0.4);"></i>
+                <h3 style="font-size: 1.5rem; font-weight: 800;">Top Asistencias - Abril</h3>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.2rem;">Basado en clases completadas</p>
+            </div>
+
+            <div class="ranking-list">
+                <!-- Top 1 -->
+                <div class="ranking-item top-1">
+                    <div class="rank-number">1</div>
+                    <div class="ranking-avatar-wrapper">
+                        <img src="https://i.pravatar.cc/150?img=33" alt="Avatar" class="ranking-avatar">
+                    </div>
+                    <div class="ranking-info">
+                        <span class="ranking-name">Laura M.</span>
+                        <span class="ranking-score">28 Clases</span>
+                    </div>
+                    <i class="fas fa-medal" style="color: #FFD700; font-size: 1.5rem;"></i>
+                </div>
+                
+                <!-- Top 2 -->
+                <div class="ranking-item top-2">
+                    <div class="rank-number">2</div>
+                    <div class="ranking-avatar-wrapper">
+                        <img src="https://i.pravatar.cc/150?img=11" alt="Avatar" class="ranking-avatar">
+                    </div>
+                    <div class="ranking-info">
+                        <span class="ranking-name">Carlos Ruiz</span>
+                        <span class="ranking-score">25 Clases</span>
+                    </div>
+                    <i class="fas fa-medal" style="color: #C0C0C0; font-size: 1.5rem;"></i>
+                </div>
+
+                <!-- Top 3 -->
+                <div class="ranking-item top-3">
+                    <div class="rank-number">3</div>
+                    <div class="ranking-avatar-wrapper">
+                        <img src="https://i.pravatar.cc/150?img=12" alt="Avatar" class="ranking-avatar">
+                    </div>
+                    <div class="ranking-info">
+                        <span class="ranking-name">David G.</span>
+                        <span class="ranking-score">22 Clases</span>
+                    </div>
+                    <i class="fas fa-medal" style="color: #CD7F32; font-size: 1.5rem;"></i>
+                </div>
+
+                <!-- Others -->
+                <div class="ranking-item">
+                    <div class="rank-number">4</div>
+                    <img src="https://i.pravatar.cc/150?img=5" alt="Avatar" class="ranking-avatar">
+                    <div class="ranking-info">
+                        <span class="ranking-name">Ana Gómez</span>
+                        <span class="ranking-score">19 Clases</span>
+                    </div>
+                </div>
+                
+                <div class="ranking-item me">
+                    <div class="rank-number">15</div>
+                    <img src="assets/default-avatar.png" alt="Mi Avatar" class="ranking-avatar" onerror="this.src='https://i.pravatar.cc/150?img=8'">
+                    <div class="ranking-info">
+                        <span class="ranking-name">Tú</span>
+                        <span class="ranking-score">10 Clases</span>
+                    </div>
+                </div>
+            </div>
+            <div style="height: 80px;"></div>
+        </div>
+
+        <!-- Floating Action Button -->
+        <button class="fab" id="createPostFab" onclick="openPostModal()">
+            <i class="fas fa-pen"></i>
+        </button>
+
+        <!-- New Post Modal -->
+        <div id="postModal" class="modal">
+            <div class="modal-content">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h3 style="margin-bottom: 0;">Nueva Publicación</h3>
+                    <button onclick="closePostModal()" style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.5rem;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="form-group">
+                    <textarea id="postContent" placeholder="¿Qué tienes en mente?" rows="4" style="resize: none;"></textarea>
+                </div>
+                <button class="btn-primary-yellow" onclick="submitPost()" style="margin-top: 1.5rem;">
+                    Publicar <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Nav -->
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="nav-tab">
+            <i class="fas fa-home"></i>
+            <span>Inicio</span>
+        </a>
+        <a href="calendar.html" class="nav-tab">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Calendario</span>
+        </a>
+        <a href="explore.html" class="nav-tab">
+            <i class="fas fa-compass"></i>
+            <span>Explorar</span>
+        </a>
+        <a href="social.html" class="nav-tab active">
+            <i class="fas fa-comments"></i>
+            <span>Social</span>
+        </a>
+        <a href="profile.html" class="nav-tab">
+            <i class="fas fa-user"></i>
+            <span>Yo</span>
+        </a>
+    </nav>
+
+    <script src="js/social.js"></script>
+</body>
+</html>

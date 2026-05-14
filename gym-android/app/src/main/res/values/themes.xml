@@ -1,0 +1,22 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.GymManager" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/gymmanager_neon</item>
+        <item name="colorPrimaryVariant">@color/gymmanager_cyan</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/gymmanager_cyan</item>
+        <item name="colorSecondaryVariant">@color/gymmanager_neon</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">#000000</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="CustomAlertDialog" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
+        <item name="android:windowBackground">@color/bg_card</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="colorAccent">@color/gymmanager_neon</item>
+    </style>
+</resources>
